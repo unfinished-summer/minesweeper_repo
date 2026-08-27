@@ -37,4 +37,5 @@ Minesweeper
 
 
 ## License
-MIT
+
+本项目采用MIT开源许可证，详见[LICENSE]文件。
