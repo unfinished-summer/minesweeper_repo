@@ -58,18 +58,18 @@ void Game() {
 	}
 	
 
-	loadimage(&img[0], L"res/0.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[1], L"res/1.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[2], L"res/2.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[3], L"res/3.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[4], L"res/4.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[5], L"res/5.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[6], L"res/6.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[7], L"res/7.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[8], L"res/8.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[9], L"res/Mine.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[10], L"res/block.png", CELL_SIZE, CELL_SIZE);
-	loadimage(&img[11], L"res/flag.png", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[0], L"res/0.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[1], L"res/1.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[2], L"res/2.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[3], L"res/3.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[4], L"res/4.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[5], L"res/5.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[6], L"res/6.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[7], L"res/7.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[8], L"res/8.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[9], L"res/Mine.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[10], L"res/block.bmp", CELL_SIZE, CELL_SIZE);
+	loadimage(&img[11], L"res/flag.bmp", CELL_SIZE, CELL_SIZE);
 	
 
 
