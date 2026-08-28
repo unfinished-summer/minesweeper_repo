@@ -6,11 +6,10 @@
 - 仅支持 Windows 平台
 
 ## 编译步骤
-1. 克隆仓库到本地
 ```bash
+1. 克隆仓库到本地
 git clone https://github.com/你的用户名/Minesweeper_repo.git
 cd Minesweeper_repo
-
 2.使用 VS 打开 Minesweeper.sln 解决方案
 3.顶部配置选择 x64 Debug，点击「生成 → 重新生成解决方案」
 项目已配置后期生成事件，编译完成自动将 res 贴图资源复制到 x64/Debug 输出目录，无需手动拷贝图片。
