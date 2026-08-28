@@ -193,9 +193,6 @@ void DrawMap(int Map[ROW + 2][COL + 2], IMAGE* img) {
 int Play(int Map[ROW + 2][COL + 2]) {
 	MOUSEMSG msg;
 	while (MouseHit()) { // 有鼠标消息才处理，不阻塞
-		#if DEBUG_PRINT_MAP
-				PrintMap(Map);
-		#endif
 		msg = GetMouseMsg();
 		// 修复坐标换算：除以格子大小CELL_SIZE
 		int col = msg.x / CELL_SIZE + 1;
@@ -206,6 +203,9 @@ int Play(int Map[ROW + 2][COL + 2]) {
 		switch (msg.uMsg) {
 		case WM_LBUTTONDOWN:
 		{
+			#if DEBUG_PRINT_MAP
+						PrintMap(Map);
+			#endif
 			int v = Map[row][col];
 			// 已翻开 / 插旗 不能点击
 			if (v >= 19) break;  // 插旗格子，禁止左键点击
@@ -224,6 +224,9 @@ int Play(int Map[ROW + 2][COL + 2]) {
 		}
 		case WM_RBUTTONDOWN: // 补全右键插旗逻辑
 		{
+			#if DEBUG_PRINT_MAP
+						PrintMap(Map);
+			#endif
 			int v = Map[row][col];
 			if (v >= 19)
 				Map[row][col] -= 20; // 取消旗子
