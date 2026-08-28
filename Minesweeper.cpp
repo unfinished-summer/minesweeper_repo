@@ -1,6 +1,8 @@
 #include <graphics.h>
 #include <time.h>
 #include <stdio.h>
+#define DEBUG_PRINT_MAP 1
+
 
 const int ROW = 10;
 const int COL = 10;
@@ -9,6 +11,24 @@ const int CELL_SIZE = 50;
 HWND hwnd;
 int openCellCnt;
 IMAGE img[12];
+
+#if DEBUG_PRINT_MAP
+void PrintMap(int Map[ROW + 2][COL + 2])
+{
+	// 光标定位控制台左上角，覆盖旧内容，避免滚动刷屏
+	COORD cursor = { 0, 0 };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursor);
+
+	for (int i = 1; i <= ROW; i++)
+	{
+		for (int j = 1; j <= COL; j++)
+		{
+			printf("%3d", Map[i][j]);
+		}
+		printf("\n");
+	}
+}
+#endif
 
 void Game();
 void DrawMap(int Map[ROW + 2][COL + 2], IMAGE* img);
@@ -56,7 +76,10 @@ void Game() {
 			}
 		}
 	}
-	
+
+#if DEBUG_PRINT_MAP
+	PrintMap(Map);
+#endif
 
 	loadimage(&img[0], L"res/0.bmp", CELL_SIZE, CELL_SIZE);
 	loadimage(&img[1], L"res/1.bmp", CELL_SIZE, CELL_SIZE);
@@ -148,22 +171,14 @@ void DrawMap(int Map[ROW + 2][COL + 2], IMAGE* img) {
 			}
 		}
 	}
-	// ========== 控制台打印整张地图 ==========
-	system("cls"); // 清空控制台，避免刷屏堆积
-	printf("===== 扫雷地图实时数值(ROW:行,COL:列) =====\n");
-	for (int i = 1; i <= ROW; i++)
-	{
-		for (int j = 1; j <= COL; j++)
-		{
-			printf("%3d ", Map[i][j]); // %3d 对齐排版
-		}
-		printf("\n");
-	}
-	printf("==========================================\n");
 }
+
 int Play(int Map[ROW + 2][COL + 2]) {
 	MOUSEMSG msg;
 	while (MouseHit()) { // 有鼠标消息才处理，不阻塞
+#if DEBUG_PRINT_MAP
+		PrintMap(Map);
+#endif
 		msg = GetMouseMsg();
 		// 修复坐标换算：除以格子大小CELL_SIZE
 		int col = msg.x / CELL_SIZE + 1;
