@@ -31,7 +31,7 @@ void PrintMap(int Map[ROW + 2][COL + 2])
 	{
 		for (int j = 1; j <= COL; j++)
 		{
-			printf("%3d", Map[i][j]);
+			printf("%4d", Map[i][j]);
 		}
 		printf("\n");
 	}
@@ -203,9 +203,6 @@ int Play(int Map[ROW + 2][COL + 2]) {
 		switch (msg.uMsg) {
 		case WM_LBUTTONDOWN:
 		{
-			#if DEBUG_PRINT_MAP
-						PrintMap(Map);
-			#endif
 			int v = Map[row][col];
 			// 已翻开 / 插旗 不能点击
 			if (v >= 19) break;  // 插旗格子，禁止左键点击
@@ -220,20 +217,24 @@ int Play(int Map[ROW + 2][COL + 2]) {
 			}
 			// 递归展开空白区域
 			OpenBlank(Map, row, col);
+			#if DEBUG_PRINT_MAP
+				PrintMap(Map);
+			#endif
 			break;
 		}
 		case WM_RBUTTONDOWN: // 补全右键插旗逻辑
 		{
-			#if DEBUG_PRINT_MAP
-						PrintMap(Map);
-			#endif
 			int v = Map[row][col];
+			if (v >= 10 && v <= 18) break; // 已翻开格子，禁止插旗
 			if (v >= 19)
 				Map[row][col] -= 20; // 取消旗子
 			else
 				Map[row][col] += 20; // 插上旗子
+			#if DEBUG_PRINT_MAP
+				PrintMap(Map);
+			#endif
 			break;
-			if (v >= 10) break; // 已翻开格子，禁止插旗
+			
 		}
 		}
 	}
