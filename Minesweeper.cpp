@@ -63,27 +63,28 @@ void Game() {
 	srand((unsigned)time(NULL));
 
 	for (int mineNum = 0;mineNum < MINE_COUNT;) {
-		int x = rand() % ROW + 1;
-		int y = rand() % COL + 1;
-		if (Map[x][y] == 0) {
-			Map[x][y] = -1;
+		int r = rand() % ROW + 1;
+		int c = rand() % COL + 1;
+		if (Map[r][c] == 0) {
+			Map[r][c] = -1;
 			mineNum++;
 		}
 	}
 
-	for (int i = 1;i <= ROW;i++) {
-		for (int j = 1;j <= COL;j++) {
-			if (Map[i][j] != -1) {
-				for (int m = i - 1;m <= i + 1;m++) {
-					for (int n = j - 1;n <= j + 1;n++) {
-						if (Map[m][n] == -1) {
-							Map[i][j]++;
-						}
-					}
-				}
-			}
+
+	for (int r = 1; r <= ROW; r++)
+	{
+		for (int c = 1; c <= COL; c++)
+		{
+			if (Map[r][c] == -1) continue;
+			int cnt = 0;
+			for (int dr = -1; dr <= 1; dr++)
+				for (int dc = -1; dc <= 1; dc++)
+					if (Map[r + dr][c + dc] == -1) cnt++;
+			Map[r][c] = cnt;
 		}
 	}
+
 
 	#if DEBUG_PRINT_MAP
 		SetConsoleCursorVisible(false);
@@ -241,20 +242,19 @@ int Play(int Map[ROW + 2][COL + 2]) {
 	return 0;
 }
 
-void OpenBlank(int Map[ROW + 2][COL + 2], int x, int y) {
-	if (x < 1 || x > ROW || y < 1 || y > COL) return;
-	int val = Map[x][y];
-	// 已点开 / 地雷 / 插旗 直接返回
-	if (val >= 10 || val == -1 || val >= 20) return;
+void OpenBlank(int Map[ROW + 2][COL + 2], int r, int c) {
+	if (r < 1 || r > ROW || c < 1 || c > COL) return;
+	int val = Map[r][c];
+	// 已翻开(10~18) / 地雷(-1) / 插旗(19~29) 直接返回
+	if (val >= 10 || val == -1 || val >= 19) return;
 
-	// 标记为已点开 +10
-	Map[x][y] += 10;
+	Map[r][c] += 10;
 	openCellCnt++;
 
-	// 当前是空白0，递归周围8格
-	if (val == 0) {
-		for (int di = -1; di <= 1; di++)
-			for (int dj = -1; dj <= 1; dj++)
-				OpenBlank(Map, x + di, y + dj);
+	if (val == 0)
+	{
+		for (int dr = -1; dr <= 1; dr++)
+			for (int dc = -1; dc <= 1; dc++)
+				OpenBlank(Map, r + dr, c + dc);
 	}
 }
