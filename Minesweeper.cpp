@@ -13,6 +13,14 @@ int openCellCnt;
 IMAGE img[12];
 
 #if DEBUG_PRINT_MAP
+// 设置控制台光标是否可见
+void SetConsoleCursorVisible(bool visible)
+{
+	CONSOLE_CURSOR_INFO info;
+	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+	info.bVisible = visible;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+}
 void PrintMap(int Map[ROW + 2][COL + 2])
 {
 	// 光标定位控制台左上角，覆盖旧内容，避免滚动刷屏
@@ -77,9 +85,10 @@ void Game() {
 		}
 	}
 
-#if DEBUG_PRINT_MAP
-	PrintMap(Map);
-#endif
+	#if DEBUG_PRINT_MAP
+		SetConsoleCursorVisible(false);
+		PrintMap(Map);
+	#endif
 
 	loadimage(&img[0], L"res/0.bmp", CELL_SIZE, CELL_SIZE);
 	loadimage(&img[1], L"res/1.bmp", CELL_SIZE, CELL_SIZE);
@@ -107,10 +116,18 @@ void Game() {
 		int state = Play(Map);
 		if (state == 1) {
 			gameOverFlag = 1;
+			#if DEBUG_PRINT_MAP
+				PrintMap(Map);
+				SetConsoleCursorVisible(true);
+			#endif
 			break; // 踩雷，先退出刷新循环
 		}
 		if (openCellCnt == ROW * COL - MINE_COUNT) {
 			gameOverFlag = 2;
+			#if DEBUG_PRINT_MAP
+				PrintMap(Map);
+				SetConsoleCursorVisible(true);
+			#endif
 			break; // 胜利，先退出刷新循环
 		}
 	}
@@ -176,9 +193,9 @@ void DrawMap(int Map[ROW + 2][COL + 2], IMAGE* img) {
 int Play(int Map[ROW + 2][COL + 2]) {
 	MOUSEMSG msg;
 	while (MouseHit()) { // 有鼠标消息才处理，不阻塞
-#if DEBUG_PRINT_MAP
-		PrintMap(Map);
-#endif
+		#if DEBUG_PRINT_MAP
+				PrintMap(Map);
+		#endif
 		msg = GetMouseMsg();
 		// 修复坐标换算：除以格子大小CELL_SIZE
 		int col = msg.x / CELL_SIZE + 1;
@@ -219,6 +236,7 @@ int Play(int Map[ROW + 2][COL + 2]) {
 	}
 	return 0;
 }
+
 void OpenBlank(int Map[ROW + 2][COL + 2], int x, int y) {
 	if (x < 1 || x > ROW || y < 1 || y > COL) return;
 	int val = Map[x][y];
