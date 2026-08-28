@@ -1,7 +1,7 @@
 # Install 编译运行指南
 
 ## 开发环境
-- Visual Studio 2022
+- Visual Studio 2026
 - EasyX for Visual C++ 图形库
 - 仅支持 Windows 平台
 
