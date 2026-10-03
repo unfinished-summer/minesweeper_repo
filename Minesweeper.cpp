@@ -1,7 +1,11 @@
 #include <graphics.h>
 #include <time.h>
 #include <stdio.h>
-#define DEBUG_PRINT_MAP 1
+#ifdef _DEBUG
+#define DEBUG_PRINT_MAP 1   // 只有 Debug 构建才打印地雷图
+#else
+#define DEBUG_PRINT_MAP 0   // Release 默认关闭，防作弊
+#endif
 
 
 const int ROW = 10;
