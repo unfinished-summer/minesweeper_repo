@@ -1,6 +1,6 @@
 # 扫雷游戏
 
-基于 C 语言 + EasyX 图形库实现的扫雷小游戏，支持左右键交互、右键插旗、胜负判定与贴图渲染。
+基于 C/C++ 与 EasyX 图形库实现的扫雷小游戏，支持左右键交互、右键插旗、胜负判定与贴图渲染。
 
 ## 项目功能
 
@@ -9,33 +9,56 @@
 - 游戏判定：踩雷失败、全部排雷胜利（弹窗提示）
 
 ## 项目特点
+
 - 资源路径相对化，解除本地磁盘路径耦合，便于部署
-- VS后期生成事件自动拷贝贴图资源，无需手动复制资源文件
+- CMake 构建：POST_BUILD 自动拷贝贴图资源到 exe 旁，无需手动复制资源文件
+- 源码与构建配置分离，编译产物不进入版本库
 
-## 限制
-EasyX图形库仅支持 Windows 平台。
+## 构建运行
 
-## 📂 文档导航
-- [INSTALL.md](./INSTALL.md) 编译运行指南
-- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) 问题与故障排查
-- [DEVELOP.md](./DEVELOP.md) 开发细节、代码结构
-- [CHANGELOG.md](./CHANGELOG.md) 版本更新记录
-- [TODO.md](./TODO.md) 待实现功能与现存缺陷
+### 依赖
+
+- EasyX 图形库（仅 Windows；头文件与库路径集中在 `CMakeLists.txt` 顶部两行，换电脑只需修改这两行）
+- CMake 3.10+，MSVC（Visual Studio 2019+）
+
+### 构建运行（Visual Studio）
+
+1. 用 VS 打开 `minesweeper_repo` 文件夹；
+2. 顶部选择 x64 配置，点击「生成」；
+3. 按 `F5` 运行。
+
+### 构建运行（命令行）
+
+```
+cmake -B build -A x64
+cmake --build build --config Release
+build\Release\Minesweeper.exe
+```
 
 ## 项目目录结构
+
 ```
-Minesweeper
-├─ res                  # 贴图资源文件夹，完整提交至 Git 仓库
-│  ├─ 0.png ~ 8.png     # 数字 0~8 格子贴图
-│  ├─ Mine.png          # 地雷贴图
-│  ├─ block.png         # 未翻开遮挡格子贴图
-│  └─ flag.png          # 插旗标记贴图
-├─ Minesweeper.cpp      # 全部游戏主逻辑代码
-├─ Minesweeper.vcxproj  # VS 项目配置（自动拷贝 res 资源脚本内置）
-└─ Minesweeper.sln     # VS 解决方案文件
+minesweeper_repo/
+├── Minesweeper.cpp      # 全部游戏主逻辑代码
+├── CMakeLists.txt       # 构建配置（含 res 资源自动拷贝）
+├── CMakePresets.json    # CMake 预设
+├── res/                 # 贴图资源（0~8 数字、地雷、遮挡、旗子）
+├── INSTALL.md           # 编译运行指南
+├── TROUBLESHOOTING.md   # 问题与故障排查
+├── DEVELOP.md           # 开发细节、代码结构
+├── CHANGELOG.md         # 版本更新记录
+├── TODO.md              # 待实现功能与现存缺陷
+└── README.md
 ```
 
+## 限制
 
-## License
+EasyX 图形库仅支持 Windows 平台。
 
-本项目采用MIT开源许可证，详见[LICENSE](./LICENSE)文件。
+## 📂 文档导航
+
+- [INSTALL.md](./INSTALL.md) — 编译运行指南
+- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) — 问题与故障排查
+- [DEVELOP.md](./DEVELOP.md) — 开发细节、代码结构
+- [CHANGELOG.md](./CHANGELOG.md) — 版本更新记录
+- [TODO.md](./TODO.md) — 待实现功能与现存缺陷
